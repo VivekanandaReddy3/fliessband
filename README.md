@@ -11,7 +11,7 @@ SalesLytic is a business analytics tool that converts complex sales data into ac
 - Interactive dashboards for business use
 
 ## 🛠️ Tech Stack
-- Data: SQL (PostgreSQL/MySQL)
+- Data: SQL (MySQL)
 - Visualization: Tableau
 
 
