@@ -1,9 +1,5 @@
 
----
 
-### 3. **SalesLytic**
-
-```markdown
 # SalesLytic
 
 ## 📝 Description
