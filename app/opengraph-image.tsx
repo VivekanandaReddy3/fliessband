@@ -7,7 +7,7 @@ export const contentType = "image/png";
 
 const SANS = "Fließband a data pipeline that monitors itself.";
 const MONO =
-  "FB DATEN-PIPELINE · STATUS GitHub Actions → Python → SQLite in git → JSON → status page vivekreddy.de ● OPERATIONAL";
+  "FB DATEN-PIPELINE · STATUS GitHub Actions → Python → SQLite in git → JSON → status page vivekreddy.de OPERATIONAL";
 
 export default async function Image() {
   const [sans, mono] = await Promise.all([
@@ -122,7 +122,17 @@ export default async function Image() {
             color: "#6a737d",
           }}
         >
-          <div style={{ color: "#1a7f37" }}>● OPERATIONAL</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, color: "#1a7f37" }}>
+            <div
+              style={{
+                width: 12,
+                height: 12,
+                borderRadius: 9999,
+                background: "#1a7f37",
+              }}
+            />
+            OPERATIONAL
+          </div>
           <div>vivekreddy.de</div>
         </div>
       </div>
