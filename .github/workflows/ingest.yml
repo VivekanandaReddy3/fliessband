@@ -1,0 +1,44 @@
+name: ingest
+
+on:
+  schedule:
+    # Daily at 05:30 UTC — upstream day-aggregates for yesterday are
+    # complete by then. The cron history IS the pipeline's uptime log.
+    - cron: "30 5 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ingest
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run ingest (yesterday + corrections)
+        run: python -m pipeline.ingest
+
+      - name: Commit data snapshot
+        run: |
+          git config user.name "fliessband-pipeline"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ public/data/
+          if git diff --cached --quiet; then
+            echo "No data changes."
+          else
+            git commit -m "data: ingest $(date -u +%Y-%m-%d) [skip ci]"
+            git push
+          fi

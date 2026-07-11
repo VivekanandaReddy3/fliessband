@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+:root {
+  --steel: #eef0f2;
+  --sheet: #ffffff;
+  --seam: #d5dae0;
+  --ink: #171b1f;
+  --faded: #6a737d;
+  --safety: #ff5c00;
+  --ok: #1a7f37;
+  --alarm: #c1121f;
+}
+
+@theme inline {
+  --color-steel: var(--steel);
+  --color-sheet: var(--sheet);
+  --color-seam: var(--seam);
+  --color-ink: var(--ink);
+  --color-faded: var(--faded);
+  --color-safety: var(--safety);
+  --color-ok: var(--ok);
+  --color-alarm: var(--alarm);
+  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
+  --font-mono:
+    var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@utility container-line {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 78rem;
+  padding-inline: 1.25rem;
+}
+
+@layer utilities {
+  .sheet {
+    background: var(--sheet);
+    border: 1px solid var(--seam);
+    border-radius: 0.5rem;
+  }
+  /* DIN hazard stripes for degraded states. */
+  .hazard {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #f5b301 0 14px,
+      #171b1f 14px 28px
+    );
+  }
+  .stripe-ok {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--ok) 0 14px,
+      #14632b 14px 28px
+    );
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: reveal 0.4s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  animation-delay: calc(var(--stagger, 0) * 60ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none;
+  }
+  *,
+  ::before,
+  ::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+::selection {
+  background: var(--safety);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--safety);
+  outline-offset: 2px;
+}
+
+body {
+  background: var(--steel);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}

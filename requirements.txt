@@ -1,0 +1,2 @@
+certifi>=2024.0.0
+pytest>=8
