@@ -18,14 +18,18 @@ import type { EnergyDay, WindJoinPoint } from "@/lib/data";
 
 const AXIS = { stroke: "#c3cad2", fontSize: 11, fontFamily: "var(--font-mono)" };
 const GRID = { stroke: "#e3e7eb", strokeDasharray: "3 3" };
+// Light DIN sheet — and explicit text colors, because Recharts otherwise
+// colors tooltip items with the series color (ink-on-dark = invisible).
 const TOOLTIP_STYLE = {
-  background: "#171b1f",
-  border: "none",
+  background: "#ffffff",
+  border: "1px solid #d5dae0",
   borderRadius: 6,
   fontFamily: "var(--font-mono)",
   fontSize: 12,
-  color: "#eef0f2",
+  boxShadow: "0 2px 8px rgba(23,27,31,0.08)",
 };
+const TOOLTIP_ITEM = { color: "#171b1f" };
+const TOOLTIP_LABEL = { color: "#6a737d" };
 
 const monthLabel = (date: string) =>
   new Date(date).toLocaleDateString("en-GB", { month: "short" });
@@ -57,6 +61,8 @@ export function WindScatter({ points }: { points: WindJoinPoint[] }) {
           />
           <Tooltip
             contentStyle={TOOLTIP_STYLE}
+            itemStyle={TOOLTIP_ITEM}
+            labelStyle={TOOLTIP_LABEL}
             formatter={(value: number, name: string) =>
               name === "wind generation"
                 ? [`${(value / 1000).toFixed(1)} GW`, name]
@@ -102,6 +108,8 @@ export function RenShareArea({ energy }: { energy: EnergyDay[] }) {
           />
           <Tooltip
             contentStyle={TOOLTIP_STYLE}
+            itemStyle={TOOLTIP_ITEM}
+            labelStyle={TOOLTIP_LABEL}
             formatter={(value: number) => [`${value.toFixed(1)} %`, "renewable share"]}
           />
           <Area
@@ -140,6 +148,8 @@ export function PriceLine({ energy }: { energy: EnergyDay[] }) {
           />
           <Tooltip
             contentStyle={TOOLTIP_STYLE}
+            itemStyle={TOOLTIP_ITEM}
+            labelStyle={TOOLTIP_LABEL}
             formatter={(value: number) => [`${value.toFixed(2)} € / MWh`, "avg price"]}
           />
           <Line
