@@ -29,6 +29,13 @@ function Label({ children }: { children: React.ReactNode }) {
   );
 }
 
+function formatRunTime(iso: string) {
+  const d = new Date(iso);
+  const date = d.toISOString().slice(0, 10);
+  const time = d.toISOString().slice(11, 16);
+  return `${date} ${time} UTC`;
+}
+
 export default function StatusPage() {
   const status = getStatus();
   const energy = getEnergy() ?? [];
@@ -109,6 +116,11 @@ export default function StatusPage() {
                         / SLO {status.sloHours} h
                       </span>
                     </p>
+                    <p className="mt-1 max-w-[16rem] text-[11px] leading-snug text-faded">
+                      Age of the newest data point: hours from the start of
+                      its day{status.latestDataDate ? ` (${status.latestDataDate})` : ""}{" "}
+                      to the last run.
+                    </p>
                   </div>
                   <div>
                     <Label>OK streak</Label>
@@ -134,8 +146,18 @@ export default function StatusPage() {
               style={{ "--stagger": 1 } as React.CSSProperties}
             >
               <p className="font-mono text-xs leading-relaxed text-faded">
-                <span className="font-semibold text-ink">every day 05:30 UTC</span>{" "}
-                → GitHub Actions runs the Python ingest → Energy-Charts +
+                <span className="font-semibold text-ink">once a day</span>{" "}
+                (scheduled for 05:30 UTC; GitHub Actions delays scheduled jobs,
+                so runs usually start between 10:00 and 14:00 UTC
+                {lastRun ? (
+                  <>
+                    {" "}— last run started{" "}
+                    <span className="font-semibold text-ink">
+                      {formatRunTime(lastRun.started_at)}
+                    </span>
+                  </>
+                ) : null}
+                ) → GitHub Actions runs the Python ingest → Energy-Charts +
                 Bright Sky (DWD) → quality checks → upsert into{" "}
                 <span className="font-semibold text-ink">
                   SQLite, committed to the repo

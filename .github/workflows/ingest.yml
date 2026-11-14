@@ -2,7 +2,8 @@ name: ingest
 
 on:
   schedule:
-    # Daily at 05:30 UTC — upstream day-aggregates for yesterday are
+    # Scheduled daily at 05:30 UTC (GitHub delays scheduled jobs, so runs
+    # typically start 10:00–14:00 UTC) — upstream day-aggregates for yesterday are
     # complete by then. The cron history IS the pipeline's uptime log.
     - cron: "30 5 * * *"
   workflow_dispatch: {}

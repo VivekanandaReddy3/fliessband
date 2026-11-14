@@ -12,7 +12,7 @@ a project by [Vivekananda Reddy](https://vivekreddy.de)
 ## Architecture
 
 ```
-GitHub Actions (cron, 05:30 UTC)
+GitHub Actions (cron scheduled 05:30 UTC; GitHub usually starts it 10:00–14:00 UTC)
   └─ python -m pipeline.ingest
        ├─ Energy-Charts API  → daily generation mix, load, prices
        ├─ Bright Sky (DWD)   → daily weather for Berlin/Hamburg/München
